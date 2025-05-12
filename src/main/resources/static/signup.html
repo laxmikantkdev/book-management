@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - Book App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #56ccf2, #2f80ed);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .signup-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 350px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2f80ed;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2f80ed;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1a5fb4;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    .success {
+      color: green;
+      font-size: 14px;
+    }
+
+    .back-link {
+      margin-top: 15px;
+      display: block;
+      color: #2f80ed;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-box">
+    <h2>Create Account</h2>
+
+    <input type="text" id="username" placeholder="Enter Username" required>
+    <input type="password" id="password" placeholder="Enter Password" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+    <p id="message" class="error"></p>
+    <p id="successMessage" class="success"></p>
+
+    <button onclick="signUp()">Sign Up</button>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+
+  <script>
+    function signUp() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const message = document.getElementById('message');
+      const successMessage = document.getElementById('successMessage');
+
+      message.textContent = '';
+      successMessage.textContent = '';
+
+      if (!username || !password || !confirmPassword) {
+        message.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        message.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      localStorage.setItem('bookAppUser', username);
+      localStorage.setItem('bookAppPass', password);
+
+      successMessage.textContent = 'Signup successful! You can now login.';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('confirmPassword').value = '';
+    }
+  </script>
+
+</body>
+</html>

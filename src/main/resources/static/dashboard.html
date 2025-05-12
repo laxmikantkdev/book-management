@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .dashboard-container {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    h1 {
+      color: #2f80ed;
+    }
+
+    .welcome {
+      text-align: right;
+      padding-right: 20px;
+      color: #2f80ed;
+    }
+
+    .book-form {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      width: 350px;
+      text-align: center;
+    }
+
+    .book-form input[type="text"], .book-form input[type="author"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #2f80ed;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1a5fb4;
+    }
+
+    .edit-btn {
+      background-color: #28a745; /* Green for Edit */
+    }
+
+    .remove-btn {
+      background-color: #dc3545; /* Red for Remove */
+    }
+
+    .book-list {
+      margin-top: 30px;
+      text-align: left;
+      margin-left: 100px;
+    }
+
+    .book-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 15px;
+      color: #2f80ed;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome">
+    <h1>Welcome, <span id="userName"></span></h1>
+    <button onclick="logout()">Logout</button>
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+
+  <div class="dashboard-container">
+    <div class="book-form">
+      <h2>Add Book</h2>
+      <input type="text" id="bookTitle" placeholder="Enter Book Title" />
+      <input type="text" id="bookAuthor" placeholder="Enter Author Name" />
+      <button onclick="addBook()">Add Book</button>
+    </div>
+
+    <div class="book-list">
+      <h3>Book List</h3>
+      <ul id="bookList">
+        <!-- Added books will appear here -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('userName').textContent = localStorage.getItem('loggedInUser');
+
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'index.html';
+    }
+
+    // Function to add book
+    function addBook() {
+      const bookTitle = document.getElementById('bookTitle').value;
+      const bookAuthor = document.getElementById('bookAuthor').value;
+
+      if (bookTitle && bookAuthor) {
+        const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+        const newBook = { title: bookTitle, author: bookAuthor };
+        bookList.push(newBook);
+        localStorage.setItem('bookList', JSON.stringify(bookList));
+
+        // Refresh the book list display
+        displayBooks();
+        
+        // Clear the input fields
+        document.getElementById('bookTitle').value = '';
+        document.getElementById('bookAuthor').value = '';
+      } else {
+        alert("Please fill both the fields!");
+      }
+    }
+
+    // Function to display books
+    function displayBooks() {
+      const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+      const bookListElement = document.getElementById('bookList');
+      bookListElement.innerHTML = '';
+
+      bookList.forEach((book, index) => {
+        const li = document.createElement('li');
+        li.classList.add('book-item');
+        li.innerHTML = `
+          <span>${book.title} by ${book.author}</span>
+          <button class="edit-btn" onclick="editBook(${index})">Edit</button>
+          <button class="remove-btn" onclick="removeBook(${index})">Remove</button>
+        `;
+        bookListElement.appendChild(li);
+      });
+    }
+
+    // Function to edit a book
+    function editBook(index) {
+      const bookList = JSON.parse(localStorage.getItem('bookList'));
+      const book = bookList[index];
+      document.getElementById('bookTitle').value = book.title;
+      document.getElementById('bookAuthor').value = book.author;
+
+      // Remove the book from the list and refresh display
+      removeBook(index);
+    }
+
+    // Function to remove a book
+    function removeBook(index) {
+      const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+      bookList.splice(index, 1);
+      localStorage.setItem('bookList', JSON.stringify(bookList));
+      displayBooks();
+    }
+
+    // Display books when the page loads
+    window.onload = function() {
+      displayBooks();
+    };
+  </script>
+
+</body>
+</html>

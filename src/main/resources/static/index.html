@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #56ccf2, #2f80ed);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      text-align: center;
+      padding: 30px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 350px;
+    }
+
+    h1 {
+      color: #2f80ed;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #2f80ed;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1a5fb4;
+    }
+
+    .link {
+      display: block;
+      color: #2f80ed;
+      text-decoration: none;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Welcome to Book App</h1>
+    <button onclick="location.href='login.html'">Login</button>
+    <button onclick="location.href='signup.html'">Sign Up</button>
+    <a href="about.html" class="link">About</a>
+  </div>
+
+</body>
+</html>
